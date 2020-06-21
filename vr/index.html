@@ -50,7 +50,32 @@ some kind of button that disapears after a click event
 
 
   <body>
-    <a-scene>
+<!-- CODE FOR PLAY SOUND BUTTON -->
+<!--   no now there is no way to click the button because of the VR scene-->
+<script>
+  function PlayVanish(btn) {
+    document.getElementsByTagName('audio')[0].play();
+    btn.style.display='none';
+}
+</script>
+
+  <button id = 'easy_click' onclick="PlayVanish(this)"> ENABLE SOUND</button>
+    <audio preload="auto"  src="blank.mp3"></audio>
+
+<!-- PLAY SOUND CODE END -->
+
+<!-- embed code style -->
+<style>
+  #myEmbeddedScene {
+    width:100%;
+    height:600px;
+  }
+</style>
+
+
+<div id="myEmbeddedScene">
+<a-scene background="color: #ECECEC" embedded>
+  <!--  <a-scene> -->
       <!-- Assets go here for preload -->
       <a-assets>  <!-- put the things we need in here -->
         <audio id="noise" src="loop.wav" preload="auto"></audio>
@@ -85,6 +110,7 @@ some kind of button that disapears after a click event
 
 
     </a-scene>
+    </div>
 
   </body>
 </html>
