@@ -1,0 +1,90 @@
+<html>
+<head>
+<!--
+  <style>
+    .rs-base {
+      left: 20px;
+      top: 80px;
+    }
+  </style>
+-->
+
+<meta charset="utf-8">
+<title>will audio ever work on mobile ?</title>
+<meta name="description" content="frustration">
+<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+
+</head>
+<body>
+
+
+<nav class="navbar navbar-default">.
+
+
+              <div class="input-group">
+                  <!-- <input type="text" class="form-control border border-right-0" placeholder="Paste Streetmix URL" /> -->
+
+                      <button type="button" onclick="startAudio()" title="Play Audio">
+                          <i id="audio-icon" class="fa fa-volume-mute" style="color: pink"></i>
+                      </button>
+
+
+              </div>
+
+  </nav>
+<!-- end nav bar -->
+  <style>
+    #myEmbeddedScene {
+      width:100%;
+      height:600px;
+    }
+  </style>
+
+<div id="myEmbeddedScene">
+  <a-scene background="color: #ECECEC" embedded>
+  <!-- Assets go here for preload -->
+  <a-assets>  <!-- put the things we need in here -->
+    <audio id="noise" src="loop.wav" preload="auto" ></audio>
+    <audio id="muzak" src="muzakLoop.mp3" preload="auto" ></audio>
+  </a-assets>
+
+  <a-entity class="playme" sound="src: #noise; positional: false; loop: true; volume:0.5"></a-entity>
+  <a-cylinder position="0  2.5 -3"
+            height="5"
+            color="#0000bb"
+            volume:1;
+            sound="src: #muzak ;
+            " >
+            <a-entity class="playme" sound="src: #muzak; loop: true;"></a-entity>
+ </a-cylinder>
+ </a-scene>
+</div>
+
+<script>
+  function startAudio() {
+    // set sounds enabled in global state
+
+    //state.sounds.enabled = true;
+
+    // iterate through all entities with .playme class and start them playing
+    var entities = document.querySelectorAll('.playme'), i;
+    for (i = 0; i < entities.length; ++i) {
+      entities[i].components.sound.playSound();
+    }
+
+
+  }
+
+//  document.querySelector('a-scene').addEventListener('enter-vr', function () {
+    // console.log("ENTERED VR");
+//    startAudio();
+//  });
+
+</script>
+
+
+
+
+
+</body>
+</html>
