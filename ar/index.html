@@ -1,16 +1,30 @@
 
 <html>
 <head>
-  <title>G Test 4</title>
+  <title>G Test 5</title>
   <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
   <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.0.6/aframe/build/aframe-ar.js"></script>
+  <!-- place 4 boxes at corners of room using one entity to hold all 4 boxes
+the entity has the actual coordinates - other elements set by position ?
+-->
 
 </head>
 <body style="margin: 0px; overflow: hidden;">
   <a-scene gps-camera-debug embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
     <a-camera gps-camera rotation-reader></a-camera>
 
-      <a-box color="yellow" gps-entity-place="latitude: -34.93433856127483; longitude: 138.59615272193298;" scale="2 2 2" />
+        <a-entity gps-entity-place="latitude: -34.93433856127483; longitude: 138.59615272193298;" >
+
+        <!-- NW -->
+      <a-box color="red"  depth="0.5" width="0.5" height="3"    position="-2 0 4" > </a-box>
+        <!-- NE -->
+      <a-box color="yellow"  depth="0.5" width="0.5" height="3" position="2 0  4" > </a-box>
+        <!-- SW -->
+      <a-box color="green"  depth="0.5" width="0.5" height="3"  position="-2 0  -4" > </a-box>
+        <!-- SE -->
+      <a-box color="blue"  depth="0.5" width="0.5" height="3"   position="2 0  -4" > </a-box>
+
+    </a-entity>
 
   </a-scene>
 </body>
