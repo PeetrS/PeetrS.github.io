@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>table geom eg</title>
+
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/matthewbryancurtis/aframe-star-system-component/db4f1030/index.js"></script>
+
+  </head>
+
+  <body>
+    <script type="text/javascript">
+    	AFRAME.registerComponent("listener", {
+    		schema :
+    		{
+    			stepFactor : { type : "number",	default : 0.05 }
+
+    		},
+    		tick : function()
+    		{	this.el.components.camera.camera.parent.position.add(this.el.components.camera.camera.getWorldDirection().multiplyScalar(this.data.stepFactor));
+
+    		}
+    	});
+    </script>
+
+<script>
+  AFRAME.registerComponent("lattice", {
+    init: function() {
+
+      let leg = document.createElement("a-entity");
+      let leg1 = document.createElement("a-entity");
+      let leg2 = document.createElement("a-entity");
+      let leg3 = document.createElement("a-entity");
+      let leg4 = document.createElement("a-entity");
+      let leg5 = document.createElement("a-entity");
+      let leg6 = document.createElement("a-entity");
+      let leg7 = document.createElement("a-entity");
+      let leg8 = document.createElement("a-entity");
+      let leg9 = document.createElement("a-entity");
+
+
+      leg.setAttribute("mixin", "leg");
+      leg1.setAttribute("position", "-4  0 0");
+      leg1.setAttribute("mixin", "leg");
+      leg2.setAttribute("position", "4  0 0");
+      leg2.setAttribute("mixin", "leg");
+      leg3.setAttribute("position", "8 0 0");
+      leg3.setAttribute("mixin", "leg");
+      leg4.setAttribute("position", "-8 0 0");
+      leg4.setAttribute("mixin", "leg");
+
+      leg5.setAttribute("position", " 0 0 0" );
+      leg5.setAttribute("rotation" , "0 0 90")
+      leg5.setAttribute("mixin", "leg");
+
+      leg6.setAttribute("position", " 0 4 0" );
+      leg6.setAttribute("rotation" , "0 0 90")
+      leg6.setAttribute("mixin", "leg");
+
+      leg7.setAttribute("position", " 0 -4 0" );
+      leg7.setAttribute("rotation" , "0 0 90")
+      leg7.setAttribute("mixin", "leg");
+
+      leg8.setAttribute("position", " 0 8 0" );
+      leg8.setAttribute("rotation" , "0 0 90")
+      leg8.setAttribute("mixin", "leg");
+
+      leg9.setAttribute("position", " 0 -8 0" );
+      leg9.setAttribute("rotation" , "0 0 90")
+      leg9.setAttribute("mixin", "leg");
+
+
+      leg.appendChild(leg1)
+      leg.appendChild(leg2)
+      leg.appendChild(leg3)
+      leg.appendChild(leg4)
+      leg.appendChild(leg5)
+      leg.appendChild(leg6)
+      leg.appendChild(leg7)
+      leg.appendChild(leg8)
+      leg.appendChild(leg9)
+
+      this.el.appendChild(leg);
+
+    }
+  })
+
+  AFRAME.registerPrimitive("a-lattice", {
+    defaultComponents: {
+      lattice: {}
+    }
+  })
+
+</script>
+
+
+<a-scene>
+
+  <a-assets>
+    <a-mixin id="leg" geometry="primitive:cylinder; height:32; radius: .01 ;" material="color: red"></a-mixin>
+  </a-assets>
+
+  <a-camera  listener="stepFactor:0.01" position="0 1.6 0">
+    <a-entity id="cursor" cursor="fuse: true;fuseTimeout:500"
+    	material="color:black"
+    	geometry="primitive:ring"
+    	position="0 0 -1"
+    	scale="0.01 0.01 0.01"
+    ></a-entity>
+  </a-camera>
+
+<a-entity >
+  <a-lattice position="0 0 -8" rotation="0 0 0"   ></a-lattice>
+    <a-lattice position="0 0 -4" rotation="0 0 0"   ></a-lattice>
+      <a-lattice position="0 0 0" rotation="0 0 0"   ></a-lattice>
+        <a-lattice position="0 0 -12" rotation="0 0 0"   ></a-lattice>
+          <a-lattice position="0 0 -16" rotation="0 0 0"   ></a-lattice>
+
+
+  <a-lattice position="8 0 -8" rotation="0 90 0"   ></a-lattice>
+    <a-lattice position="-8 0 -8" rotation="0 90 0"   ></a-lattice>
+
+
+  <a-lattice position="0 8 -8" rotation="90 0 0"   ></a-lattice>
+  <a-lattice position="-8 0 -8" rotation="0 90 0"  ></a-lattice>
+
+</a-entity>
+
+
+<!-- animation="property: rotation; to: 0 360 0; dur: 100000; easing: linear; loop: true " -->
+<a-sky color="black"></a-sky>
+        <a-entity star-system></a-entity>
+</a-scene>
+
+</body>
+</html>
