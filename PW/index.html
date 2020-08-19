@@ -39,7 +39,7 @@
                    physicallyCorrectLights: true;">
 
 <!--  ***** ASSETS TO LOAD ***** -->
-      <a-assets>
+      <a-assets timeout="6000">
         <a-asset-item id="nav" src="OBJtest.gltf"></a-asset-item>
 
         <a-asset-item id="world" src="World/World.gltf"></a-asset-item>
@@ -51,10 +51,11 @@
         <!-- SKY -->
         <img id="sky" src="StarField1.jpg">
         <!-- AUDIO -->
-        <audio id="Rsnd" src="Sound/RobotLoop.wav" preload="auto"></audio>
+      
         <audio id="Ssnd" src="Sound/SaucerLoop.mp3" preload="auto"></audio>
         <audio id="R1snd" src="Sound/SpinRob1.mp3" preload="auto"></audio>
         <audio id="R2snd" src="Sound/SpinRob2.mp3" preload="auto"></audio>
+        <audio id="Rsnd" src="Sound/RobotLoop.wav" preload="auto"></audio>
 
 
       </a-assets>
