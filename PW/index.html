@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Platfrom World Alpha</title>
+    <!-- this new walkway is working - get around not using the ramp by confining robots
+    to lower level and users to the top. add up down and acrros portions to walkway to create more
+    interesting movement
+  -->
+
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
+
+  </head>
+
+<body>
+  <!-- BUTTON TO GET SOUNDS WORKING -->
+    <button type="button" id="buttn" onclick="startAudio(this)" title="Play Audio">Click for Audio once scene has loaded </button>
+
+<style>
+/* using the z-index gets rid of the need to embed the a-frame scene - horay */
+#buttn {
+   text-align: center;
+   color: white;
+   display: inline-block;
+   font-size: 16px;
+   background-color: #FF1200;
+   z-index: 1;
+   position: absolute;
+   left: 150px;
+   top: 150px;
+}
+</style>
+<!-- END BUTTON CODE EXCEPT FOR BOTTOM BIT -->
+
+
+<a-scene background="color: #111" renderer="antialias: true;
+                   colorManagement: true;
+                   sortObjects: true;
+                   physicallyCorrectLights: true;">
+
+<!--  ***** ASSETS TO LOAD ***** -->
+      <a-assets>
+        <a-asset-item id="nav" src="OBJtest.gltf"></a-asset-item>
+
+        <a-asset-item id="world" src="World/World.gltf"></a-asset-item>
+        <a-asset-item id="floor" src="Floor/Floor.gltf"></a-asset-item>
+        <!-- ROBOT -->
+        <a-asset-item id="robot" src="RobotAnimNB/robot texture bake and scale no CmLight-anim-noBump.gltf"></a-asset-item>
+        <!-- SAUCER -->
+        <a-asset-item id="saucer" src="SaucerModel/FlyingSaucer.gltf"></a-asset-item>
+        <!-- SKY -->
+        <img id="sky" src="StarField1.jpg">
+        <!-- AUDIO -->
+        <audio id="Rsnd" src="Sound/RobotLoop.wav" preload="auto"></audio>
+        <audio id="Ssnd" src="Sound/SaucerLoop.mp3" preload="auto"></audio>
+        <audio id="R1snd" src="Sound/SpinRob1.mp3" preload="auto"></audio>
+        <audio id="R2snd" src="Sound/SpinRob2.mp3" preload="auto"></audio>
+
+
+      </a-assets>
+
+
+
+
+
+<!-- ********* CAMERA RIG ********** -->
+      <a-entity id="rig" movement-controls="constrainToNavMesh: true;" position="0 2.8 0" rotation="0 0 0">
+          <a-entity camera look-controls="pointerLockEnabled: true;"position="0 2.8 0" ></a-entity>
+        </a-entity>
+
+<!-- ******* SKY ********** -->
+  <a-sky src="#sky"></a-sky>
+
+
+
+
+<!-- ******** LIGHTS -->
+  <a-light type="ambient" intensity="2.0" color="#fff" ></a-light>
+
+<!-- Shadow Bias had to be set to a low negative number to remove the crazy stripes as both cast and receive shadows is true for both
+possibly make a new world with a separate floor that only recieves shadows then this will not be a problem, another suggestion is to use a
+slight cube instead of a plane -->
+
+
+<a-entity light="color: #EEE; castShadow: true; intensity: 1.5; groundColor: #ffffff; distance: 17.5;
+shadowBias: -0.003; shadowCameraFar: 119.8; shadowCameraFov: 114.9;
+shadowCameraNear: 37.7; shadowCameraTop: 23.3; shadowCameraRight: 44.9;
+shadowCameraBottom: -11.1; shadowCameraLeft: -26;
+shadowCameraVisible: false" position="-81.978 46.99011 1.34778" rotation=""></a-entity>
+
+
+
+
+
+<!-- ********** THE WORLD WITH NAV ************ -->
+
+    <a-entity gltf-model="#nav" nav-mesh position="0 0 0"  visible="false"></a-entity>
+
+    <a-entity shadow="cast: true; receive: true">
+      <a-entity gltf-model="#world"  position= "0 0 0" >
+      </a-entity>
+
+      <a-entity shadow="cast: false; receive: true">
+        <a-entity gltf-model="#floor"  position= "0 0 0" >
+        </a-entity>
+
+ <!-- ROBOT SECTION WITH ANIMATION OUTER CIRCLE -->
+
+    <a-entity position="0 0 0" animation="property: rotation; to: 0 360 0; dur: 20000; easing: linear; loop: true" >
+
+        <a-entity gltf-model="#robot"  position="0 0 16" rotation="0 90 0" scale="1 1 1"  animation-mixer>
+
+             <a-entity class="playme" sound="src: #Rsnd; loop: true; volume: 0.8; distanceModel: exponential ; autoplay: false "></a-entity>
+        </a-entity>
+
+
+    </a-entity>
+
+    <!-- ROBOT SECTION WITH ANIMATION INNER CIRCLE -->
+
+    <a-entity position="0 0 0" animation="property: rotation; to: 0 -360 0; dur: 20000; easing: linear; loop: true" >
+        <a-entity gltf-model="#robot"  shadow="cast: true; receive: true" position="0 0 9" rotation="0 -90 0" scale="1 1 1" animation-mixer>
+
+          <a-entity class="playme" sound="src: #Rsnd; loop: true; volume: 0.8; distanceModel: exponential ; autoplay: false "></a-entity>
+        </a-entity>
+    </a-entity>
+
+
+    <!-- ROBOT SECTION WITH ANIMATION CORNER ROTATION -->
+
+        <a-entity gltf-model="#robot"  position="-10 0 -10" rotation="0 90 0" scale="1 1 1"  animation-mixer
+        animation="property: rotation; to: 0 450 0; dur: 8000; easing: linear; loop: true"
+        >
+          <a-entity class="playme" sound="src: #R1snd; loop: true; volume:1; distanceModel: exponential ; autoplay: false "></a-entity>
+       </a-entity>
+
+        <!-- ROBOT SECTION WITH ANIMATION CORNER ROTATION -->
+
+       <a-entity gltf-model="#robot"  position="10 0 10" rotation="0 90 0" scale="1 1 1"  animation-mixer
+        animation="property: rotation; to: 0 450 0; dur: 8000; easing: linear; loop: true">
+         <a-entity class="playme" sound="src: #R2snd; loop: true; volume:1; distanceModel: exponential ; autoplay: false "></a-entity>
+       </a-entity>
+
+       <!-- SAUCER SECTION WITH ANIMATION -->
+
+       <a-entity position="0 16 0" animation="property: rotation; to: 0 360 0; dur: 24000; easing: linear; loop: true">
+          <a-entity gltf-model="#saucer"  position="0 0 22"  scale="1 1 1"
+          animation="property: rotation; from: -60 0 0 to: 60 0 0; dir: alternate ; dur: 12000; easing: linear; loop: true">
+
+           <a-entity class="playme" sound="src: #Ssnd; loop: true; volume:1; distanceModel: exponential ; autoplay: false ">
+
+       </a-entity>
+        </a-entity>
+       </a-entity>
+
+
+</a-scene>
+<!-- lets get the audio going function that the button uses -->
+<script>
+      function startAudio(btn) {
+      // iterate through all entities with .playme class and start them playing
+      var entities = document.querySelectorAll('.playme'), i;
+      for (i = 0; i < entities.length; ++i) {
+      entities[i].components.sound.playSound();
+    }
+     btn.style.display='none';
+
+  }
+</script>
+
+</html>
